@@ -5,15 +5,10 @@ import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
 
 export default function App() {
-  const [enteredGoalText, setEnteredGoalText] = useState("");
   const [courseGoals, setCourseGoals] = useState([]);
 
-  function goalInputHandler(enteredText) {
-    setEnteredGoalText(enteredText);
-  }
-
   //* Add a new goal into a list of goals
-  function addGoalHandler() {
+  function addGoalHandler(enteredGoalText) {
     setCourseGoals((currentCourseGoals) => [
       ...currentCourseGoals,
       { text: enteredGoalText, id: Math.random().toString() },
@@ -23,7 +18,7 @@ export default function App() {
   return (
     // View it's like a container element
     <View style={styles.appContainer}>
-      <GoalInput onTextInput={goalInputHandler} onAdd={addGoalHandler} />
+      <GoalInput onAddGoal={addGoalHandler} />
       <View style={styles.goalsContainer}>
         {/* FlatList component is scrollable, but just the currently visible items are rendered */}
         <FlatList
