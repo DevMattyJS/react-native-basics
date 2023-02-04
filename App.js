@@ -31,7 +31,10 @@ export default function App() {
       <View style={styles.goalsContainer}>
         {/* Output the list of course goals */}
         {courseGoals.map((courseGoal) => (
-          <Text key={courseGoal}>{courseGoal}</Text>
+          // Output the list of course items (we wrapped a View element around Text just for a styling reasons for ios)
+          <View key={courseGoal} style={styles.goalItem}>
+            <Text style={styles.goalText}>{courseGoal}</Text>
+          </View>
         ))}
       </View>
     </View>
@@ -40,7 +43,8 @@ export default function App() {
 
 // ############# STYLES ###############
 
-//! There isn't o CSS in React Native
+//! There isn't o CSS in React Native -
+//! A big difference between CSS and Stylesheet object is that children elements don't inherit a styles from their parent elements !!!
 //* We can use inline styles or we can set up a stylesheet objects
 //* These stylesheet objects are written in JS, but the property names are inspired by Css
 const styles = StyleSheet.create({
@@ -69,5 +73,14 @@ const styles = StyleSheet.create({
   },
   goalsContainer: {
     flex: 5,
+  },
+  goalItem: {
+    margin: 8,
+    padding: 8,
+    borderRadius: 6,
+    backgroundColor: "#5e0acc",
+  },
+  goalText: {
+    color: "white",
   },
 });
