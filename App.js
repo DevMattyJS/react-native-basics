@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { StyleSheet, Text, View, Button, TextInput } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  TextInput,
+  ScrollView,
+  FlatList,
+} from "react-native";
 
 export default function App() {
   const [enteredGoalText, setEnteredGoalText] = useState("");
@@ -13,7 +21,7 @@ export default function App() {
   function addGoalHandler() {
     setCourseGoals((currentCourseGoals) => [
       ...currentCourseGoals,
-      enteredGoalText,
+      { text: enteredGoalText, id: Math.random().toString() },
     ]);
   }
 
@@ -29,13 +37,23 @@ export default function App() {
         <Button title="Add Goal" onPress={addGoalHandler} />
       </View>
       <View style={styles.goalsContainer}>
-        {/* Output the list of course goals */}
-        {courseGoals.map((courseGoal) => (
-          // Output the list of course items (we wrapped a View element around Text just for a styling reasons for ios)
-          <View key={courseGoal} style={styles.goalItem}>
-            <Text style={styles.goalText}>{courseGoal}</Text>
-          </View>
-        ))}
+        {/* FlatList component is scrollable, but just the currently visible items are rendered */}
+        <FlatList
+          data={courseGoals}
+          renderItem={(itemData) => {
+            return (
+              <View style={styles.goalItem}>
+                <Text style={styles.goalText}>{itemData.item.text}</Text>
+              </View>
+            );
+          }}
+          // If we loading our data from API and there is some property, which we can use as a good unique key
+          // we can use a keyExtractor prop to extract that key from a data and tell Flatlist to use it
+          // If we setting up our own data, it's better to set a 'key' property to our data and Flatlist will automatically use it
+          keyExtractor={(item, index) => {
+            return item.id;
+          }}
+        />
       </View>
     </View>
   );
