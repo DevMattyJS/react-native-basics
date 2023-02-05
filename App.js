@@ -15,6 +15,14 @@ export default function App() {
     ]);
   }
 
+  //* Delete a goal (pressed) from a list of goals
+  function deleteGoalHandler(id) {
+    setCourseGoals((currentCourseGoals) => {
+      // Delete an item by using a filter method (create a new array without tha deleted item, which was filtered out)
+      return currentCourseGoals.filter((goal) => goal.id !== id);
+    });
+  }
+
   return (
     // View it's like a container element
     <View style={styles.appContainer}>
@@ -24,7 +32,13 @@ export default function App() {
         <FlatList
           data={courseGoals}
           renderItem={(itemData) => {
-            return <GoalItem text={itemData.item.text} />;
+            return (
+              <GoalItem
+                text={itemData.item.text}
+                id={itemData.item.id}
+                onDeleteItem={deleteGoalHandler}
+              />
+            );
           }}
           // If we loading our data from API and there is some property, which we can use as a good unique key
           // we can use a keyExtractor prop to extract that key from a data and tell Flatlist to use it
