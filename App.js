@@ -6,6 +6,15 @@ import GoalInput from "./components/GoalInput";
 
 export default function App() {
   const [courseGoals, setCourseGoals] = useState([]);
+  const [modalIsVisible, setModalIsVisible] = useState(false);
+
+  function startAddGoalHandler() {
+    setModalIsVisible(true);
+  }
+
+  function endAddGoalHandler() {
+    setModalIsVisible(false);
+  }
 
   //* Add a new goal into a list of goals
   function addGoalHandler(enteredGoalText) {
@@ -13,6 +22,7 @@ export default function App() {
       ...currentCourseGoals,
       { text: enteredGoalText, id: Math.random().toString() },
     ]);
+    endAddGoalHandler();
   }
 
   //* Delete a goal (pressed) from a list of goals
@@ -26,7 +36,16 @@ export default function App() {
   return (
     // View it's like a container element
     <View style={styles.appContainer}>
-      <GoalInput onAddGoal={addGoalHandler} />
+      <Button
+        title="Add New Goal"
+        color={"#5e0acc"}
+        onPress={startAddGoalHandler}
+      />
+      <GoalInput
+        onAddGoal={addGoalHandler}
+        onCancel={endAddGoalHandler}
+        visible={modalIsVisible}
+      />
       <View style={styles.goalsContainer}>
         {/* FlatList component is scrollable, but just the currently visible items are rendered */}
         <FlatList
